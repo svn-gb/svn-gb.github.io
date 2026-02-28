@@ -57,7 +57,7 @@
       <div class="hero-inner container">
         <div class="hero-media">
           <!-- centered portrait / background image -->
-          <img src="https://picsum.photos/1200/800?blur=2&grayscale=false" alt="Hero photograph" />
+          <img src="src/pics/1000115497.jpg" alt="Hero photograph" />
         </div>
 
         <div class="hero-content">
@@ -82,12 +82,12 @@
 
       <div class="portfolio-grid">
         <!-- Using picsum placeholders; replace with real images -->
-        <figure class="portfolio-item"><img src="https://picsum.photos/600/800?random=1" alt="Portfolio 1"><figcaption>Portrait — Anna</figcaption></figure>
-        <figure class="portfolio-item"><img src="https://picsum.photos/600/400?random=2" alt="Portfolio 2"><figcaption>Wedding — M & T</figcaption></figure>
-        <figure class="portfolio-item"><img src="https://picsum.photos/600/600?random=3" alt="Portfolio 3"><figcaption>Travel — Cityscape</figcaption></figure>
-        <figure class="portfolio-item"><img src="https://picsum.photos/600/800?random=4" alt="Portfolio 4"><figcaption>Portrait — Lukas</figcaption></figure>
-        <figure class="portfolio-item"><img src="https://picsum.photos/600/400?random=5" alt="Portfolio 5"><figcaption>Wedding — Ceremony</figcaption></figure>
-        <figure class="portfolio-item"><img src="https://picsum.photos/600/600?random=6" alt="Portfolio 6"><figcaption>Commercial — Product</figcaption></figure>
+        <figure class="portfolio-item"><img src="src/pics/frame.jpg" alt="Portfolio 1"><figcaption>Travel — Landscape</figcaption></figure>
+        <figure class="portfolio-item"><img src="src/pics/SGS00089.jpg" alt="Portfolio 2"><figcaption>Elbphilharmonie — Hamburg</figcaption></figure>
+        <figure class="portfolio-item"><img src="src/pics/SGS00689.jpg" alt="Portfolio 3"><figcaption>Travel — Landscape</figcaption></figure>
+        <figure class="portfolio-item"><img src="src/pics/SGS00469.jpg" alt="Portfolio 4"><figcaption>Cars — LaFerrari</figcaption></figure>
+        <figure class="portfolio-item"><img src="src/pics/SGS00302.jpg" alt="Portfolio 5"><figcaption>Cars — Porsche 911</figcaption></figure>
+        <figure class="portfolio-item"><img src="src/pics/SGS00075.jpg" alt="Portfolio 6"><figcaption>Travel — Hamburg Port</figcaption></figure>
       </div>
     </section>
 
@@ -95,7 +95,7 @@
     <section id="about" class="section about container">
       <div class="about-grid">
         <div class="about-photo">
-          <img src="https://picsum.photos/800/1000?random=11" alt="Photographer portrait">
+          <img src="src/pics/SGS00679-2.jpg" alt="Photographer portrait">
         </div>
         <div class="about-text">
           <h2>About</h2>
@@ -168,11 +168,22 @@
     <!-- CONTACT -->
     <section id="contact" class="section container contact-section">
       <div class="contact-grid">
+      <div class="contact-grid">
         <div class="contact-form-wrap">
           <h2>Contact</h2>
           <p class="subtle">Interested in working together? Send a message and I'll respond within 48 hours.</p>
 
-          <form class="contact-form" action="#" method="post" novalidate>
+          <form class="contact-form" action="https://formsubmit.co/sven73.gubo@gmail.com" method="POST">
+            
+            <!-- Disable Captcha (optional) -->
+            <input type="hidden" name="_captcha" value="false">
+            
+            <!-- Email subject -->
+            <input type="hidden" name="_subject" value="New Contact Form Message">
+            
+            <!-- Redirect after submit (optional) -->
+            <input type="hidden" name="_next" value="https://svengubo.de/thank-you.html">
+
             <label>
               <span class="label-text">Name</span>
               <input type="text" name="name" required placeholder="Your name">
@@ -191,13 +202,15 @@
             <div class="form-actions">
               <button type="submit" class="btn btn-primary">Send message</button>
             </div>
+
           </form>
         </div>
+      </div>
 
         <aside class="contact-info">
           <div class="contact-card">
             <h3>Direct</h3>
-            <p class="muted">Email: <a href="mailto:hello@svenphoto.example">hello@svenphoto.example</a><br>Phone: <a href="tel:+491234567890">+49 123 456 7890</a></p>
+            <p class="muted">Email: <a href="mailto:mail@svengubo.de">mail@svengubo.de</a><br>Phone: <a href="tel:+491234567890">+49 123 456 7890</a></p>
           </div>
 
           <div class="contact-card">
