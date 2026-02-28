@@ -1,0 +1,263 @@
+<!-- index.html -->
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Sven Gubo Photography — Portfolio</title>
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Smooth scroll behavior for anchors -->
+  <style>html { scroll-behavior: smooth; }</style>
+</head>
+<body class="light-theme">
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand">
+        <a href="#home" class="logo">
+          <!-- Simple typographic logo -->
+          <span class="logo-name">Sven Gubo Photography</span>
+        </a>
+      </div>
+
+      <nav class="main-nav" aria-label="Main navigation">
+        <ul>
+          <li><a href="#home">Home</a></li>
+          <li><a href="#portfolio">Portfolio</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+
+      <div class="header-actions">
+        <!-- Theme toggle -->
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle light and dark theme" title="Toggle theme">
+          <!-- Sun / Moon SVGs layered; CSS will show appropriate one -->
+          <svg class="icon icon-sun" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+            <path d="M6.76 4.84l-1.8-1.79L3.17 4.83l1.79 1.8 1.8-1.79zM1 13h3v-2H1v2zm10-9h2V1h-2v3zm7.03 1.04l1.79-1.8-1.79-1.79-1.8 1.79 1.8 1.8zM17 13h3v-2h-3v2zM12 8a4 4 0 100 8 4 4 0 000-8zm4.24 9.16l1.8 1.79 1.79-1.79-1.79-1.8-1.8 1.8zM11 23h2v-3h-2v3zM3.17 19.17l1.79-1.79-1.79-1.8-1.79 1.8 1.79 1.79z" fill="currentColor"/>
+          </svg>
+          <svg class="icon icon-moon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+            <path d="M21.64 13.05A9 9 0 1110.95 2.36 7 7 0 0021.64 13.05z" fill="currentColor"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO -->
+    <section id="home" class="hero">
+      <div class="hero-inner container">
+        <div class="hero-media">
+          <!-- centered portrait / background image -->
+          <img src="https://picsum.photos/1200/800?blur=2&grayscale=false" alt="Hero photograph" />
+        </div>
+
+        <div class="hero-content">
+          <h1>Capturing moments in their purest light.</h1>
+          <p class="lead">Documentary-inspired portraits, intimate weddings, and crisp commercial photography. Clean aesthetic, thoughtful editing.</p>
+          <a class="btn btn-primary" href="#portfolio">View Portfolio</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- PORTFOLIO -->
+    <section id="portfolio" class="section container">
+      <div class="section-header">
+        <h2>Portfolio</h2>
+        <div class="filters">
+          <button class="filter btn-ghost">All</button>
+          <button class="filter btn-ghost">Portraits</button>
+          <button class="filter btn-ghost">Weddings</button>
+          <button class="filter btn-ghost">Travel</button>
+        </div>
+      </div>
+
+      <div class="portfolio-grid">
+        <!-- Using picsum placeholders; replace with real images -->
+        <figure class="portfolio-item"><img src="https://picsum.photos/600/800?random=1" alt="Portfolio 1"><figcaption>Portrait — Anna</figcaption></figure>
+        <figure class="portfolio-item"><img src="https://picsum.photos/600/400?random=2" alt="Portfolio 2"><figcaption>Wedding — M & T</figcaption></figure>
+        <figure class="portfolio-item"><img src="https://picsum.photos/600/600?random=3" alt="Portfolio 3"><figcaption>Travel — Cityscape</figcaption></figure>
+        <figure class="portfolio-item"><img src="https://picsum.photos/600/800?random=4" alt="Portfolio 4"><figcaption>Portrait — Lukas</figcaption></figure>
+        <figure class="portfolio-item"><img src="https://picsum.photos/600/400?random=5" alt="Portfolio 5"><figcaption>Wedding — Ceremony</figcaption></figure>
+        <figure class="portfolio-item"><img src="https://picsum.photos/600/600?random=6" alt="Portfolio 6"><figcaption>Commercial — Product</figcaption></figure>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" class="section about container">
+      <div class="about-grid">
+        <div class="about-photo">
+          <img src="https://picsum.photos/800/1000?random=11" alt="Photographer portrait">
+        </div>
+        <div class="about-text">
+          <h2>About</h2>
+          <p class="lead">Hi, I'm Sven — a photographer focused on natural light, honest portraits, and refined storytelling. I love creating images that feel timeless and true to the moment.</p>
+
+          <ul class="bio-list">
+            <li>10+ years professional experience</li>
+            <li>Published in editorial and commercial campaigns</li>
+            <li>Specialties: portraiture, weddings, commercial</li>
+            <li>Manual RAW editing in Lightroom & Photoshop</li>
+          </ul>
+
+          <a href="#contact" class="btn btn-outline">Get in touch</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section id="services" class="section container">
+      <div class="section-header">
+        <h2>Services</h2>
+        <p class="subtle">Tailored packages for every project — from intimate portraits to full wedding coverage.</p>
+      </div>
+
+      <div class="services-grid">
+        <article class="service-card">
+          <h3>Wedding Photography</h3>
+          <p class="muted">Full-day coverage, second shooter available. Includes an online gallery and selected retouched images.</p>
+          <p class="price">Starting at €1,900</p>
+        </article>
+
+        <article class="service-card">
+          <h3>Portrait Sessions</h3>
+          <p class="muted">Studio or location sessions. Includes guidance, a selection of final retouched images.</p>
+          <p class="price">Starting at €250</p>
+        </article>
+
+        <article class="service-card">
+          <h3>Commercial Shoots</h3>
+          <p class="muted">Product, lifestyle, and editorial shoots tailored to brand needs. High-res files and licensing options.</p>
+          <p class="price">Starting at €800</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section class="section container">
+      <div class="section-header">
+        <h2>Testimonials</h2>
+      </div>
+
+      <div class="testimonials-grid">
+        <blockquote class="testimonial">
+          <p>"Sven captured our wedding perfectly — honest, beautiful photos that we will treasure forever."</p>
+          <cite>— Anna K., Bride</cite>
+        </blockquote>
+
+        <blockquote class="testimonial">
+          <p>"Professional, calm, and incredibly creative. Our brand campaign images were exactly what we needed."</p>
+          <cite>— Markus R., Creative Director</cite>
+        </blockquote>
+
+        <blockquote class="testimonial">
+          <p>"The portrait session felt natural and relaxed. Sven made me feel at ease and the results were fantastic."</p>
+          <cite>— Lena S., Client</cite>
+        </blockquote>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="section container contact-section">
+      <div class="contact-grid">
+        <div class="contact-form-wrap">
+          <h2>Contact</h2>
+          <p class="subtle">Interested in working together? Send a message and I'll respond within 48 hours.</p>
+
+          <form class="contact-form" action="#" method="post" novalidate>
+            <label>
+              <span class="label-text">Name</span>
+              <input type="text" name="name" required placeholder="Your name">
+            </label>
+
+            <label>
+              <span class="label-text">Email</span>
+              <input type="email" name="email" required placeholder="you@example.com">
+            </label>
+
+            <label>
+              <span class="label-text">Message</span>
+              <textarea name="message" rows="6" required placeholder="Tell me about your project..."></textarea>
+            </label>
+
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary">Send message</button>
+            </div>
+          </form>
+        </div>
+
+        <aside class="contact-info">
+          <div class="contact-card">
+            <h3>Direct</h3>
+            <p class="muted">Email: <a href="mailto:hello@svenphoto.example">hello@svenphoto.example</a><br>Phone: <a href="tel:+491234567890">+49 123 456 7890</a></p>
+          </div>
+
+          <div class="contact-card">
+            <h3>Follow</h3>
+            <p class="socials">
+              <!-- simple inline SVG icons -->
+              <a href="#" aria-label="Instagram" class="social-link">Instagram</a> ·
+              <a href="#" aria-label="Behance" class="social-link">Behance</a> ·
+              <a href="#" aria-label="LinkedIn" class="social-link">LinkedIn</a>
+            </p>
+          </div>
+
+          <div class="contact-card">
+            <h3>Location</h3>
+            <p class="muted">Based in Germany — available for travel worldwide.</p>
+          </div>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>© <span id="year"></span> Sven Gubo Photography. All images © Sven Gubo.</p>
+      <p class="footer-links">
+        <a href="#privacy">Privacy</a> · <a href="#terms">Terms</a>
+      </p>
+    </div>
+  </footer>
+
+  <!-- Minimal JS: theme toggle and localStorage -->
+  <script>
+    (function () {
+      const body = document.body;
+      const toggle = document.getElementById('theme-toggle');
+      const yearEl = document.getElementById('year');
+
+      // set copyright year
+      yearEl.textContent = new Date().getFullYear();
+
+      // apply saved preference (if any)
+      const saved = localStorage.getItem('site-theme'); // 'dark' or 'light'
+      if (saved === 'dark') {
+        body.classList.add('dark-theme');
+      } else {
+        body.classList.remove('dark-theme');
+      }
+
+      // click toggles dark-theme class and stores preference
+      toggle.addEventListener('click', function () {
+        const isDark = body.classList.toggle('dark-theme');
+        localStorage.setItem('site-theme', isDark ? 'dark' : 'light');
+        // provide a brief accessibility announcement
+        toggle.setAttribute('aria-pressed', String(isDark));
+      });
+
+      // ensure toggle aria-pressed initial value
+      toggle.setAttribute('aria-pressed', String(body.classList.contains('dark-theme')));
+    })();
+  </script>
+</body>
+</html>
