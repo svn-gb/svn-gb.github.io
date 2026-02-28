@@ -65,9 +65,10 @@
         </div>
 
         <div class="hero-content">
-          <h1>Capturing moments in their purest light.</h1>
-          <p class="lead">Documentary-inspired portraits, intimate weddings, and crisp commercial photography. Clean aesthetic, thoughtful editing.</p>
-          <a class="btn btn-primary" href="#portfolio">View Portfolio</a>
+          <h1>Narrative in every frame. <br />
+             Moments in their purest light.</h1>
+          <p class="lead">Specializing in documentary-style portraits, editorial weddings, and refined commercial imagery. Based in Germany, available worldwide.</p>
+          <a class="btn btn-primary" href="#portfolio">Explore the Gallery</a>
         </div>
       </div>
     </section>
@@ -103,13 +104,13 @@
         </div>
         <div class="about-text">
           <h2>About</h2>
-          <p class="lead">Hi, I'm Sven — a photographer focused on natural light, honest portraits, and refined storytelling. I love creating images that feel timeless and true to the moment.</p>
+          <p class="lead">I’m Sven, a photographer dedicated to the interplay of natural light and authentic human connection. My approach is minimalist and intentional—focusing on honest storytelling and a timeless aesthetic that outlasts trends.</p>
 
           <ul class="bio-list">
-            <li>10+ years professional experience</li>
-            <li>Published in editorial and commercial campaigns</li>
-            <li>Specialties: portraiture, weddings, commercial</li>
-            <li>Manual RAW editing in Lightroom & Photoshop</li>
+            <li>3+ years of craft in editorial and commercial photography.</li>
+            <li>Expertise in natural light mastery and high-end RAW processing.</li>
+            <li>Published in leading editorial and commercial campaigns.</li>
+            <li>Committed to a seamless, relaxed experience from concept to final delivery.</li>
           </ul>
 
           <a href="#contact" class="btn btn-outline">Get in touch</a>
@@ -127,7 +128,7 @@
       <div class="services-grid">
         <article class="service-card">
           <h3>Wedding Photography</h3>
-          <p class="muted">Full-day coverage, second shooter available. Includes an online gallery and selected retouched images.</p>
+          <p class="muted">Full-day coverage. Includes an online gallery and selected retouched images.</p>
           <p class="price">Starting at €1,900</p>
         </article>
 
@@ -246,6 +247,12 @@
     </div>
   </footer>
 
+  <div id="lightbox" class="lightbox">
+    <span class="lightbox-close">&times;</span>
+    <img class="lightbox-content" id="lightbox-img" src="" alt="Enlarged view">
+    <div id="lightbox-caption"></div>
+  </div>
+
   <!-- Minimal JS: theme toggle and localStorage -->
   <script>
     (function () {
@@ -275,6 +282,30 @@
       // ensure toggle aria-pressed initial value
       toggle.setAttribute('aria-pressed', String(body.classList.contains('dark-theme')));
     })();
+
+    // ... existing theme toggle code ...
+
+    // Lightbox Logic
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+    const lightboxCaption = document.getElementById('lightbox-caption');
+    const portfolioItems = document.querySelectorAll('.portfolio-item img');
+
+    portfolioItems.forEach(image => {
+      image.addEventListener('click', () => {
+        lightbox.style.display = 'flex';
+        lightboxImg.src = image.src; // Uses the same source
+        
+        // Get the caption from the parent <figcaption>
+        const captionText = image.parentElement.querySelector('figcaption')?.textContent;
+        lightboxCaption.textContent = captionText || "";
+      });
+    });
+
+    // Close lightbox when clicking anywhere on the overlay
+    lightbox.addEventListener('click', () => {
+      lightbox.style.display = 'none';
+    });
   </script>
 </body>
 </html>
