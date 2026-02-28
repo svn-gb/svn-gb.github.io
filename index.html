@@ -235,6 +235,12 @@
         </aside>
       </div>
     </section>
+
+    <button id="back-to-top" aria-label="Back to top">
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <polyline points="18 15 12 9 6 15"></polyline>
+  </svg>
+</button>
   </main>
 
   <!-- FOOTER -->
@@ -305,6 +311,25 @@
     // Close lightbox when clicking anywhere on the overlay
     lightbox.addEventListener('click', () => {
       lightbox.style.display = 'none';
+    });
+
+
+    // Back to Top Logic
+    const backToTop = document.getElementById('back-to-top');
+
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 500) {
+        backToTop.classList.add('visible');
+      } else {
+        backToTop.classList.remove('visible');
+      }
+    });
+
+    backToTop.addEventListener('click', () => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
     });
   </script>
 </body>
