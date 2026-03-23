@@ -159,6 +159,9 @@ body {
   aspect-ratio: 1 / 1;
   overflow: hidden; 
   margin-bottom: 15px;
+  image-rendering: -webkit-optimize-contrast; /* Sharpens images */
+  backface-visibility: hidden; /* Prevents "jitter" during transitions */
+  -webkit-font-smoothing: antialiased; /* Cleans up text noise */
 }
 
 .grid-image-wrap img {
@@ -167,6 +170,9 @@ body {
   object-fit: cover;
   display: block;
   transition: 1.2s var(--ease);
+  image-rendering: -webkit-optimize-contrast; /* Sharpens images */
+  backface-visibility: hidden; /* Prevents "jitter" during transitions */
+  -webkit-font-smoothing: antialiased; /* Cleans up text noise */
 }
 
 .grid-item:hover .grid-image-wrap img {
