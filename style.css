@@ -126,14 +126,17 @@ body {
 .item-7 { grid-column: 7 / 13; }              
 .item-8 { grid-column: 2 / 7; margin-top: 10vh; }
 .item-9 { grid-column: 8 / 12; }              
-
-
-.item-6 img, .item-7 img, .item-8 img, .item-9 img {
+.item-6, .item-7, .item-8, .item-9 {
   aspect-ratio: 2 / 3;
-  object-fit: cover;
 }
 
-.grid-item img { width: 100%; height: 100%; object-fit: cover; transition: 1s var(--ease); object-fit: cover;}
+.grid-item img { 
+  width: 100%; 
+  height: 100%; 
+  object-fit: cover; /* This prevents squishing/stretching */
+  display: block;
+  transition: 1s var(--ease);
+}
 .grid-item:hover img {scale: 1.03; }
 
 .caption { 
@@ -320,7 +323,10 @@ body {
   .about-grid { grid-template-columns: 1fr; gap: 40px; }
   .about-img-stack img { height: 50vh !important; }
   .editorial-grid { display: block; }
-  .grid-item { margin-bottom: 40px; }
+  .grid-item { 
+    aspect-ratio: auto; /* Lets the image dictate the height on mobile */
+    height: 60vh; /* Limits the height so one portrait doesn't take 3 scrolls */
+  }
   #cursor { display: none; }
   html { cursor: auto; }
 }
