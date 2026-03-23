@@ -1,333 +1,200 @@
-<!-- index.html -->
 <!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Sven Gubo Photography — Portfolio</title>
+  
+  <title>Sven Gubo — Narrative Photography & Visual Storytelling</title>
+  <meta name="description" content="Editorial and narrative photography by Sven Gubo. Capturing the quiet power of urban geometry, nature, and machine soul in Germany.">
+  <meta name="keywords" content="Photographer Germany, Narrative Photography, Sven Gubo, Editorial Photographer, Urban Geometry">
+  <meta name="author" content="Sven Gubo">
+  
+  <meta property="og:title" content="Sven Gubo — Narrative Photography">
+  <meta property="og:description" content="Visual storyteller based in Germany. Curation over capture.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://svengubo.de">
 
-  <!-- Google Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-
-  <!-- Stylesheet -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
-
-  <!-- Smooth scroll behavior for anchors -->
-  <style>html { scroll-behavior: smooth; }</style>
 </head>
 <body class="light-theme">
 
-  <header class="site-header">
-    <div class="container header-inner">
-      <div class="brand">
-        <a href="#home" class="logo">
-          <!-- Simple typographic logo -->
-          <span class="logo-name">Sven Gubo Photography</span>
-        </a>
-      </div>
+  <div id="cursor"></div>
 
-      <nav class="main-nav" aria-label="Main navigation">
+  <div id="lightbox" onclick="closeLightbox()">
+    <img id="lightbox-img" src="" alt="Full Resolution Image">
+  </div>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="#home" class="logo">SVEN GUBO<span>.</span></a>
+      <nav class="main-nav">
         <ul>
-          <li><a href="#home">Home</a></li>
-          <li><a href="#portfolio">Portfolio</a></li>
-          <li><a href="#about">About</a></li>
-          <li><a href="#services">Services</a></li>
-          <li><a href="#contact">Contact</a></li>
+          <li><a href="#portfolio" data-en="Archive" data-de="Archiv">Archive</a></li>
+          <li><a href="#about" data-en="Philosophy" data-de="Philosophie">Philosophy</a></li>
+          <li><a href="#contact" data-en="Contact" data-de="Kontakt">Contact</a></li>
         </ul>
       </nav>
-
-      <div class="header-actions">
-        <!-- Theme toggle -->
-        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle light and dark theme" title="Toggle theme">
-          <!-- Sun / Moon SVGs layered; CSS will show appropriate one -->
-          <svg class="icon icon-sun" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
-            <path d="M6.76 4.84l-1.8-1.79L3.17 4.83l1.79 1.8 1.8-1.79zM1 13h3v-2H1v2zm10-9h2V1h-2v3zm7.03 1.04l1.79-1.8-1.79-1.79-1.8 1.79 1.8 1.8zM17 13h3v-2h-3v2zM12 8a4 4 0 100 8 4 4 0 000-8zm4.24 9.16l1.8 1.79 1.79-1.79-1.79-1.8-1.8 1.8zM11 23h2v-3h-2v3zM3.17 19.17l1.79-1.79-1.79-1.8-1.79 1.8 1.79 1.79z" fill="currentColor"/>
-          </svg>
-          <svg class="icon icon-moon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
-            <path d="M21.64 13.05A9 9 0 1110.95 2.36 7 7 0 0021.64 13.05z" fill="currentColor"/>
-          </svg>
-        </button>
+      <div class="controls">
+        <button id="lang-toggle" class="control-btn">DE</button>
+        <button id="theme-toggle" class="control-btn">Mode</button>
       </div>
     </div>
   </header>
 
   <main>
-    <!-- HERO -->
     <section id="home" class="hero">
-      <div class="hero-inner container">
-        <div class="hero-media">
-          <!-- centered portrait / background image -->
-          <img src="src/pics/1000115497.jpg" 
-     alt="Hero photograph" 
-     fetchpriority="high" 
-     loading="eager" 
-     decoding="async">
+      <div class="hero-grid">
+        <div class="container hero-text">
+          <span class="eyebrow" data-en="Visual Storyteller // Germany" data-de="Visueller Geschichtenerzähler // Deutschland">Visual Storyteller // Germany</span>
+          <h1 data-en="The Art of the <em>Unseen</em>" data-de="Die Kunst des <em>Unsichtbaren</em>">The Art of the <em>Unseen</em></h1>
+          <p data-en="Editorial imagery for those who value the quiet power of a single frame." data-de="Editoriale Bildsprache für jene, die die stille Kraft eines einzelnen Augenblicks schätzen.">Editorial imagery for those who value the quiet power of a single frame.</p>
         </div>
-
-        <div class="hero-content">
-          <h1>Narrative in every frame. <br />
-             Moments in their purest light.</h1>
-          <p class="lead">Specializing in documentary-style portraits, editorial weddings, and refined commercial imagery. Based in Germany, available worldwide.</p>
-          <a class="btn btn-primary" href="#portfolio">Explore the Gallery</a>
+        <div class="hero-image">
+          <img src="src/pics/1000115497.jpg" alt="Hero Portrait">
         </div>
       </div>
     </section>
 
-    <!-- PORTFOLIO -->
-    <section id="portfolio" class="section container">
-      <div class="section-header">
-        <h2>Portfolio</h2>
-        <div class="filters">
-          <button class="filter btn-ghost">All</button>
-          <button class="filter btn-ghost">Portraits</button>
-          <button class="filter btn-ghost">Weddings</button>
-          <button class="filter btn-ghost">Travel</button>
+    <section id="portfolio" class="section">
+      <div class="container">
+        <div class="section-title">
+          <h2 class="serif" data-en="Portfolios" data-de="Portfolios">Portfolios</h2>
         </div>
-      </div>
-
-      <div class="portfolio-grid">
-        <!-- Using picsum placeholders; replace with real images -->
-        <figure class="portfolio-item"><img src="src/pics/frame.jpg" alt="Portfolio 1" loading="lazy" decoding="async"><figcaption>Travel — Landscape</figcaption></figure>
-        <figure class="portfolio-item"><img src="src/pics/SGS00089.jpg" alt="Portfolio 2" loading="lazy" decoding="async"><figcaption>Elbphilharmonie — Hamburg</figcaption></figure>
-        <figure class="portfolio-item"><img src="src/pics/SGS00689.jpg" alt="Portfolio 3" loading="lazy" decoding="async"><figcaption>Travel — Landscape</figcaption></figure>
-        <figure class="portfolio-item"><img src="src/pics/SGS00469.jpg" alt="Portfolio 4" loading="lazy" decoding="async"><figcaption>Cars — LaFerrari</figcaption></figure>
-        <figure class="portfolio-item"><img src="src/pics/SGS00302.jpg" alt="Portfolio 5" loading="lazy" decoding="async"><figcaption>Cars — Porsche 911</figcaption></figure>
-        <figure class="portfolio-item"><img src="src/pics/SGS00075.jpg" alt="Portfolio 6" loading="lazy" decoding="async"><figcaption>Travel — Hamburg Port</figcaption></figure>
-      </div>
-    </section>
-
-    <!-- ABOUT -->
-    <section id="about" class="section about container">
-      <div class="about-grid">
-        <div class="about-photo">
-          <img src="src/pics/SGS00679-2.jpg" alt="Photographer portrait" loading="lazy" decoding="async">
-        </div>
-        <div class="about-text">
-          <h2>About</h2>
-          <p class="lead">I’m Sven, a photographer dedicated to the interplay of natural light and authentic human connection. My approach is minimalist and intentional—focusing on honest storytelling and a timeless aesthetic that outlasts trends.</p>
-
-          <ul class="bio-list">
-            <li>3+ years of craft in editorial and commercial photography.</li>
-            <li>Expertise in natural light mastery and high-end RAW processing.</li>
-            <li>Published in leading editorial and commercial campaigns.</li>
-            <li>Committed to a seamless, relaxed experience from concept to final delivery.</li>
-          </ul>
-
-          <a href="#contact" class="btn btn-outline">Get in touch</a>
-        </div>
-      </div>
-    </section>
-
-    <!-- SERVICES -->
-    <section id="services" class="section container">
-      <div class="section-header">
-        <h2>Services</h2>
-        <p class="subtle">Tailored packages for every project — from intimate portraits to full wedding coverage.</p>
-      </div>
-
-      <div class="services-grid">
-        <article class="service-card">
-          <h3>Wedding Photography</h3>
-          <p class="muted">Full-day coverage. Includes an online gallery and selected retouched images.</p>
-          <p class="price">Starting at €1,900</p>
-        </article>
-
-        <article class="service-card">
-          <h3>Portrait Sessions</h3>
-          <p class="muted">Studio or location sessions. Includes guidance, a selection of final retouched images.</p>
-          <p class="price">Starting at €250</p>
-        </article>
-
-        <article class="service-card">
-          <h3>Commercial Shoots</h3>
-          <p class="muted">Product, lifestyle, and editorial shoots tailored to brand needs. High-res files and licensing options.</p>
-          <p class="price">Starting at €800</p>
-        </article>
-      </div>
-    </section>
-
-    <!-- TESTIMONIALS -->
-    <section class="section container">
-      <div class="section-header">
-        <h2>Testimonials</h2>
-      </div>
-
-      <div class="testimonials-grid">
-        <blockquote class="testimonial">
-          <p>"Sven captured our wedding perfectly — honest, beautiful photos that we will treasure forever."</p>
-          <cite>— Anna K., Bride</cite>
-        </blockquote>
-
-        <blockquote class="testimonial">
-          <p>"Professional, calm, and incredibly creative. Our brand campaign images were exactly what we needed."</p>
-          <cite>— Markus R., Creative Director</cite>
-        </blockquote>
-
-        <blockquote class="testimonial">
-          <p>"The portrait session felt natural and relaxed. Sven made me feel at ease and the results were fantastic."</p>
-          <cite>— Lena S., Client</cite>
-        </blockquote>
-      </div>
-    </section>
-
-    <!-- CONTACT -->
-    <section id="contact" class="section container contact-section">
-      <div class="contact-grid">
-        <div class="contact-form-wrap">
-          <h2>Contact</h2>
-          <p class="subtle">Interested in working together? Send a message and I'll respond within 48 hours.</p>
-
-          <form class="contact-form" action="https://formsubmit.co/sven73.gubo@gmail.com" method="POST">
-            
-            <!-- Disable Captcha (optional) -->
-            <input type="hidden" name="_captcha" value="false">
-            
-            <!-- Email subject -->
-            <input type="hidden" name="_subject" value="New Contact Form Message">
-            
-            <!-- Redirect after submit (optional) -->
-            <input type="hidden" name="_next" value="https://svn-gb.github.io/thankyou.html">
-
-            <label>
-              <span class="label-text">Name</span>
-              <input type="text" name="name" required placeholder="Your name">
-            </label>
-
-            <label>
-              <span class="label-text">Email</span>
-              <input type="email" name="email" required placeholder="you@example.com">
-            </label>
-
-            <label>
-              <span class="label-text">Message</span>
-              <textarea name="message" rows="6" required placeholder="Tell me about your project..."></textarea>
-            </label>
-
-            <div class="form-actions">
-              <button type="submit" class="btn btn-primary">Send message</button>
-            </div>
-
-          </form>
-      </div>
-
-        <aside class="contact-info">
-          <div class="contact-card">
-            <h3>Direct</h3>
-            <p class="muted">Email: <a href="mailto:mail@svengubo.de">mail@svengubo.de</a><br>Phone: <a href="tel:+491234567890">+49 123 456 7890</a></p>
+        
+        <div class="editorial-grid">
+          <div class="grid-item item-1" onclick="openLightbox(this.querySelector('img').src)">
+            <img src="src/pics/frame.jpg" alt="Landscape" loading="lazy">
+            <p class="caption" data-en="01 — The Silence of Nature" data-de="01 — Die Stille der Natur">01 — The Silence of Nature</p>
           </div>
-
-          <div class="contact-card">
-            <h3>Follow</h3>
-            <p class="socials">
-              <!-- simple inline SVG icons -->
-              <a href="#" aria-label="Instagram" class="social-link">Instagram</a> ·
-              <a href="#" aria-label="Behance" class="social-link">Behance</a> ·
-              <a href="#" aria-label="LinkedIn" class="social-link">LinkedIn</a>
-            </p>
+          <div class="grid-item item-2" onclick="openLightbox(this.querySelector('img').src)">
+            <img src="src/pics/SGS00089.jpg" alt="Elbphilharmonie" loading="lazy">
+            <p class="caption" data-en="02 — Urban Geometry" data-de="02 — Urbane Geometrie">02 — Urban Geometry</p>
           </div>
-
-          <div class="contact-card">
-            <h3>Location</h3>
-            <p class="muted">Based in Germany — available for travel worldwide.</p>
+          <div class="grid-item item-3" onclick="openLightbox(this.querySelector('img').src)">
+            <img src="src/pics/SGS00469.jpg" alt="LaFerrari" loading="lazy">
+            <p class="caption" data-en="03 — Machine Soul" data-de="03 — Seele der Maschine">03 — Machine Soul</p>
           </div>
-        </aside>
+          <div class="grid-item item-4" onclick="openLightbox(this.querySelector('img').src)">
+            <img src="src/pics/SGS00302.jpg" alt="Porsche" loading="lazy">
+            <p class="caption" data-en="04 — Form & Motion" data-de="04 — Form & Bewegung">04 — Form & Motion</p>
+          </div>
+          <div class="grid-item item-5" onclick="openLightbox(this.querySelector('img').src)">
+            <img src="src/pics/SGS00075.jpg" alt="Hamburg Port" loading="lazy">
+            <p class="caption" data-en="05 — Industrial Grit" data-de="05 — Industrieller Mut">05 — Industrial Grit</p>
+          </div>
+        </div>
       </div>
     </section>
 
-    <button id="back-to-top" aria-label="Back to top">
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-    <polyline points="18 15 12 9 6 15"></polyline>
-  </svg>
-</button>
+    <section id="about" class="about-modern section">
+      <div class="container about-grid">
+        <div class="about-img-stack">
+          <img 
+  src="src/pics/SGS00679-2.jpg", alt="Sven Gubo", style="width: 100%; max-width: 400px; height: auto; display: block;">
+        </div>
+        <div class="about-info">
+          <span class="eyebrow" data-en="The Artist" data-de="Der Künstler">The Artist</span>
+          <h2 class="serif" data-en="Curation over <br>Capture." data-de="Kuration vor <br>Momentaufnahme.">Curation over <br>Capture.</h2>
+          <p class="lead" data-en="I don't just take photos; I curate a visual legacy." data-de="Ich mache nicht nur Fotos; ich kuratiere ein visuelles Erbe.">I don't just take photos; I curate a visual legacy.</p>
+          <p data-en="Based in Germany, I spend my time chasing natural light and high-end RAW processing." data-de="Ansässig in Deutschland, widme ich mich der Suche nach natürlichem Licht und hochwertiger RAW-Bearbeitung.">Based in Germany, I spend my time chasing natural light and high-end RAW processing.</p>
+          <br>
+          <a href="mailto:mail@svengubo.de" class="text-link" id="contact-link" data-en="Start a Project →" data-de="Projekt anfragen →">Start a Project →</a>
+        </div>
+      </div>
+    </section>
   </main>
 
-  <!-- FOOTER -->
-  <footer class="site-footer">
-    <div class="container footer-inner">
-      <p>© <span id="year"></span> Sven Gubo Photography. All images © Sven Gubo.</p>
-      <p class="footer-links">
-        <a href="#privacy">Privacy</a> · <a href="#terms">Terms</a>
-      </p>
+  <footer id="contact" class="footer-modern">
+    <div class="container">
+      <div class="footer-cta">
+        <div class="cta-text">
+          <span class="eyebrow" data-en="Collaboration" data-de="Zusammenarbeit">Collaboration</span>
+          <h2 class="serif" data-en="Available for Commissions." data-de="Verfügbar für Aufträge.">Available for Commissions.</h2>
+        </div>
+        <div class="cta-action">
+          <a href="mailto:mail@svengubo.de" class="huge-link" data-en="Get in touch." data-de="Kontakt aufnehmen.">Get in touch.</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© Sven Gubo — Est. 2021</p>
+        <div class="socials">
+          <a href="#">Instagram</a>
+          <a href="#">LinkedIn</a>
+        </div>
+      </div>
     </div>
   </footer>
 
-  <div id="lightbox" class="lightbox">
-    <span class="lightbox-close">&times;</span>
-    <img class="lightbox-content" id="lightbox-img" src="" alt="Enlarged view">
-    <div id="lightbox-caption"></div>
-  </div>
-
-  <!-- Minimal JS: theme toggle and localStorage -->
   <script>
-    (function () {
-      const body = document.body;
-      const toggle = document.getElementById('theme-toggle');
-      const yearEl = document.getElementById('year');
-
-      // set copyright year
-      yearEl.textContent = new Date().getFullYear();
-
-      // apply saved preference (if any)
-      const saved = localStorage.getItem('site-theme'); // 'dark' or 'light'
-      if (saved === 'dark') {
-        body.classList.add('dark-theme');
-      } else {
-        body.classList.remove('dark-theme');
-      }
-
-      // click toggles dark-theme class and stores preference
-      toggle.addEventListener('click', function () {
-        const isDark = body.classList.toggle('dark-theme');
-        localStorage.setItem('site-theme', isDark ? 'dark' : 'light');
-        // provide a brief accessibility announcement
-        toggle.setAttribute('aria-pressed', String(isDark));
-      });
-
-      // ensure toggle aria-pressed initial value
-      toggle.setAttribute('aria-pressed', String(body.classList.contains('dark-theme')));
-    })();
-
-    // ... existing theme toggle code ...
-
-    // Lightbox Logic
+    const cursor = document.getElementById('cursor');
     const lightbox = document.getElementById('lightbox');
     const lightboxImg = document.getElementById('lightbox-img');
-    const lightboxCaption = document.getElementById('lightbox-caption');
-    const portfolioItems = document.querySelectorAll('.portfolio-item img');
+    const header = document.querySelector('.site-header');
 
-    portfolioItems.forEach(image => {
-      image.addEventListener('click', () => {
-        lightbox.style.display = 'flex';
-        lightboxImg.src = image.src; // Uses the same source
-        
-        // Get the caption from the parent <figcaption>
-        const captionText = image.parentElement.querySelector('figcaption')?.textContent;
-        lightboxCaption.textContent = captionText || "";
+    // Snappy Cursor
+    document.addEventListener('mousemove', (e) => {
+      const x = e.clientX - cursor.offsetWidth / 2;
+      const y = e.clientY - cursor.offsetHeight / 2;
+      cursor.style.transform = `translate(${x}px, ${y}px)`;
+    });
+
+    const interactables = document.querySelectorAll('a, button, .grid-item');
+    interactables.forEach(el => {
+      el.addEventListener('mouseenter', () => {
+        cursor.style.width = '40px'; cursor.style.height = '40px'; cursor.style.opacity = '0.3';
+      });
+      el.addEventListener('mouseleave', () => {
+        cursor.style.width = '10px'; cursor.style.height = '10px'; cursor.style.opacity = '1';
       });
     });
 
-    // Close lightbox when clicking anywhere on the overlay
-    lightbox.addEventListener('click', () => {
+    function openLightbox(src) {
+      lightboxImg.src = src;
+      lightbox.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
       lightbox.style.display = 'none';
-    });
+      document.body.style.overflow = 'auto';
+    }
 
+    // Theme Toggle
+    const body = document.body;
+    const toggle = document.getElementById('theme-toggle');
+    toggle.onclick = () => {
+      body.classList.toggle('dark-theme');
+      body.classList.toggle('light-theme');
+    };
 
-    // Back to Top Logic
-    const backToTop = document.getElementById('back-to-top');
+    // LANGUAGE TOGGLE SYSTEM
+    const langBtn = document.getElementById('lang-toggle');
+    let currentLang = 'en';
+
+    langBtn.onclick = () => {
+      currentLang = currentLang === 'en' ? 'de' : 'en';
+      langBtn.innerText = currentLang === 'en' ? 'DE' : 'EN';
+      
+      document.querySelectorAll('[data-en]').forEach(el => {
+        el.innerHTML = el.getAttribute(`data-${currentLang}`);
+      });
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.grid-item').forEach(item => observer.observe(item));
 
     window.addEventListener('scroll', () => {
-      if (window.scrollY > 500) {
-        backToTop.classList.add('visible');
+      if (window.scrollY > 50) {
+        header.classList.add('scrolled');
       } else {
-        backToTop.classList.remove('visible');
+        header.classList.remove('scrolled');
       }
-    });
-
-    backToTop.addEventListener('click', () => {
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-      });
     });
   </script>
 </body>

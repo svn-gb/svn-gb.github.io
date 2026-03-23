@@ -7,38 +7,24 @@
   <link rel="stylesheet" href="style.css">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
-<body>
-
-  <main class="section">
+<body class="light-theme"> <main class="section" style="height: 100vh; display: flex; align-items: center;">
     <div class="container">
-
       <div class="thank-you-card reveal">
-
-        <h1>🎉 Message Sent!</h1>
-
-        <p class="lead">
+        <h1 class="serif" style="font-size: 3rem;">🎉 Message Sent!</h1>
+        <p class="lead" style="color: var(--accent); margin-top: 20px;">
           Thank you for reaching out. I’ve received your message and will respond within 48 hours.
         </p>
-
-        <p class="muted">
-          In the meantime, feel free to explore more of my work.
-        </p>
-
-        <div class="thank-you-actions">
-          <a href="index.html" class="btn btn-primary">Back to Home</a>
+        <div class="thank-you-actions" style="margin-top: 40px;">
+          <a href="index.html" class="huge-link" style="font-size: 2rem;">Back to Home</a>
         </div>
-
       </div>
-
     </div>
   </main>
 
   <script>
-    // Simple reveal animation trigger
     window.addEventListener("DOMContentLoaded", () => {
-      document.querySelector(".reveal")?.classList.add("revealed");
+      document.querySelector(".reveal")?.classList.add("visible");
     });
   </script>
-
 </body>
 </html>
