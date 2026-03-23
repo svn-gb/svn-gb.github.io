@@ -122,9 +122,19 @@ body {
 .item-3 { grid-column: 2 / 12; height: 70vh; }
 .item-4 { grid-column: 1 / 5; }
 .item-5 { grid-column: 6 / 13; }
+.item-6 { grid-column: 1 / 6; margin-top: -5vh; } 
+.item-7 { grid-column: 7 / 13; }              
+.item-8 { grid-column: 2 / 7; margin-top: 10vh; }
+.item-9 { grid-column: 8 / 12; }              
 
-.grid-item img { width: 100%; height: 100%; object-fit: cover; filter: sepia(20%) contrast(1.1); transition: 1s var(--ease); }
-.grid-item:hover img { filter: sepia(0%) contrast(1); scale: 1.03; }
+
+.item-6 img, .item-7 img, .item-8 img, .item-9 img {
+  aspect-ratio: 2 / 3;
+  object-fit: cover;
+}
+
+.grid-item img { width: 100%; height: 100%; object-fit: cover; transition: 1s var(--ease); object-fit: cover;}
+.grid-item:hover img {scale: 1.03; }
 
 .caption { 
   font-family: var(--serif); font-style: italic; margin-top: 15px; 
