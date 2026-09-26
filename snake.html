@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Snake — Sven Gubo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="src/pics/favicon.jpg">
+  <style>
+    :root {
+      --bg: #f4f1ea;
+      --text: #1a1a1a;
+      --accent: #a68b6d;
+      --panel: #ffffff;
+      --border: rgba(0,0,0,0.08);
+      --serif: 'Playfair Display', serif;
+      --sans: 'Poppins', sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: var(--sans);
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 16px;
+      gap: 20px;
+    }
+    h1 { font-family: var(--serif); font-size: clamp(2.5rem, 8vw, 4rem); font-weight: 400; }
+    h1 em { font-style: italic; color: var(--accent); }
+    .bar {
+      width: min(480px, 100%);
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.8rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+    canvas {
+      width: min(480px, 100%);
+      aspect-ratio: 1;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      touch-action: none;
+    }
+    .hint { font-size: 0.8rem; opacity: 0.6; text-align: center; }
+    a { color: var(--accent); text-decoration: none; font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; }
+  </style>
+</head>
+<body>
+  <h1><em>Snake</em></h1>
+  <div class="bar"><span>Score <strong id="score">0</strong></span><span>Best <strong id="best">0</strong></span></div>
+  <canvas id="board" width="480" height="480"></canvas>
+  <p class="hint" id="hint">Press an arrow key or swipe to start</p>
+  <a href="index.html">← Back to Home</a>
+
+  <script>
+    const canvas = document.getElementById('board');
+    const ctx = canvas.getContext('2d');
+    const scoreEl = document.getElementById('score');
+    const bestEl = document.getElementById('best');
+    const hint = document.getElementById('hint');
+    const N = 20, C = canvas.width / N;
+    const css = getComputedStyle(document.documentElement);
+    const colText = css.getPropertyValue('--text').trim();
+    const colAccent = css.getPropertyValue('--accent').trim();
+
+    let best = 0;
+    try { best = +localStorage.getItem('snake-best') || 0; } catch (e) {}
+    bestEl.textContent = best;
+
+    let snake, dir, queue, food, score, running, timer;
+
+    function reset() {
+      snake = [{ x: 10, y: 10 }, { x: 9, y: 10 }, { x: 8, y: 10 }];
+      dir = { x: 1, y: 0 };
+      queue = [];
+      score = 0;
+      scoreEl.textContent = 0;
+      placeFood();
+      draw();
+    }
+
+    function placeFood() {
+      do {
+        food = { x: Math.floor(Math.random() * N), y: Math.floor(Math.random() * N) };
+      } while (snake.some(s => s.x === food.x && s.y === food.y));
+    }
+
+    function step() {
+      if (queue.length) dir = queue.shift();
+      const head = { x: snake[0].x + dir.x, y: snake[0].y + dir.y };
+      const hitsWall = head.x < 0 || head.y < 0 || head.x >= N || head.y >= N;
+      const hitsSelf = snake.slice(0, -1).some(s => s.x === head.x && s.y === head.y);
+      if (hitsWall || hitsSelf) return gameOver();
+      snake.unshift(head);
+      if (head.x === food.x && head.y === food.y) {
+        score++;
+        scoreEl.textContent = score;
+        placeFood();
+      } else {
+        snake.pop();
+      }
+      draw();
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = colAccent;
+      ctx.beginPath();
+      ctx.arc(food.x * C + C / 2, food.y * C + C / 2, C / 2 - 3, 0, Math.PI * 2);
+      ctx.fill();
+      snake.forEach((s, i) => {
+        ctx.fillStyle = colText;
+        ctx.globalAlpha = i === 0 ? 1 : 0.85;
+        ctx.fillRect(s.x * C + 1, s.y * C + 1, C - 2, C - 2);
+      });
+      ctx.globalAlpha = 1;
+    }
+
+    function start() {
+      if (running) return;
+      running = true;
+      hint.textContent = 'Arrow keys / WASD or swipe to steer';
+      timer = setInterval(step, 110);
+    }
+
+    function gameOver() {
+      clearInterval(timer);
+      running = false;
+      if (score > best) {
+        best = score;
+        bestEl.textContent = best;
+        try { localStorage.setItem('snake-best', best); } catch (e) {}
+      }
+      hint.textContent = 'Game over — press an arrow key or swipe to play again';
+      reset();
+    }
+
+    function turn(nd) {
+      const last = queue.length ? queue[queue.length - 1] : dir;
+      if (nd.x === -last.x && nd.y === -last.y) return;
+      if (nd.x === last.x && nd.y === last.y) return;
+      if (queue.length < 3) queue.push(nd);
+      start();
+    }
+
+    const keys = {
+      ArrowUp: { x: 0, y: -1 }, w: { x: 0, y: -1 },
+      ArrowDown: { x: 0, y: 1 }, s: { x: 0, y: 1 },
+      ArrowLeft: { x: -1, y: 0 }, a: { x: -1, y: 0 },
+      ArrowRight: { x: 1, y: 0 }, d: { x: 1, y: 0 },
+    };
+    document.addEventListener('keydown', e => {
+      const nd = keys[e.key.length === 1 ? e.key.toLowerCase() : e.key];
+      if (!nd) return;
+      e.preventDefault();
+      if (!running && nd.x === -dir.x && nd.y === -dir.y) { start(); return; }
+      turn(nd);
+    });
+
+    let touch = null;
+    canvas.addEventListener('touchstart', e => { touch = e.touches[0]; }, { passive: true });
+    canvas.addEventListener('touchend', e => {
+      if (!touch) return;
+      const t = e.changedTouches[0];
+      const dx = t.clientX - touch.clientX, dy = t.clientY - touch.clientY;
+      touch = null;
+      if (Math.max(Math.abs(dx), Math.abs(dy)) < 20) { start(); return; }
+      turn(Math.abs(dx) > Math.abs(dy) ? { x: Math.sign(dx), y: 0 } : { x: 0, y: Math.sign(dy) });
+    });
+
+    reset();
+  </script>
+</body>
+</html>
