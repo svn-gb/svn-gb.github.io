@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "site",
+      "runtimeExecutable": "powershell",
+      "runtimeArgs": ["-NoProfile", "-ExecutionPolicy", "Bypass", "-File", "C:\\Users\\sven7\\AppData\\Local\\Temp\\claude\\C--Users-sven7-Documents-Coding-svn-gb-github-io\\6c34122f-d5a4-40b4-8141-f71bd4a0e4e7\\scratchpad\\serve.ps1"],
+      "port": 8123
+    }
+  ]
+}
