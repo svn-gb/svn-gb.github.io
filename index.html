@@ -23,7 +23,9 @@
   <div id="cursor"></div>
 
   <div id="lightbox" onclick="closeLightbox()">
+    <button id="lightbox-prev" class="lightbox-nav lightbox-prev" onclick="prevImage(event)" aria-label="Previous image">&#8249;</button>
     <img id="lightbox-img" src="" alt="Full Resolution Image">
+    <button id="lightbox-next" class="lightbox-nav lightbox-next" onclick="nextImage(event)" aria-label="Next image">&#8250;</button>
   </div>
 
   <header class="site-header">
@@ -227,7 +229,7 @@
         <div class="socials">
           <a href="#">Instagram</a>
           <a href="#">LinkedIn</a>
-          <a href="/impressum.html">Impressum</a>
+          <a href="/impressumcd .html">Impressum</a>
         </div>
       </div>
     </div>
@@ -255,8 +257,24 @@
       });
     });
 
+     const galleryImages = Array.from(document.querySelectorAll('.grid-image-wrap')).map(el => {
+      const match = el.getAttribute('onclick').match(/openLightbox\('([^']+)'\)/);
+      return match ? match[1] : null;
+    }).filter(Boolean);
+
+    const lightboxPrev = document.getElementById('lightbox-prev');
+    const lightboxNext = document.getElementById('lightbox-next');
+    let currentImageIndex = -1;
+
+    function showImage(index) {
+      currentImageIndex = index;
+      lightboxImg.src = galleryImages[index];
+      lightboxPrev.style.display = index === 0 ? 'none' : 'flex';
+      lightboxNext.style.display = index === galleryImages.length - 1 ? 'none' : 'flex';
+    }
+
     function openLightbox(src) {
-      lightboxImg.src = src;
+      showImage(galleryImages.indexOf(src));
       lightbox.style.display = 'flex';
       document.body.style.overflow = 'hidden';
     }
@@ -264,6 +282,16 @@
     function closeLightbox() {
       lightbox.style.display = 'none';
       document.body.style.overflow = 'auto';
+    }
+
+    function prevImage(e) {
+      e.stopPropagation();
+      if (currentImageIndex > 0) showImage(currentImageIndex - 1);
+    }
+
+    function nextImage(e) {
+      e.stopPropagation();
+      if (currentImageIndex < galleryImages.length - 1) showImage(currentImageIndex + 1);
     }
 
     const body = document.body;
