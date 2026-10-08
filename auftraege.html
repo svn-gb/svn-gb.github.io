@@ -77,6 +77,23 @@
         <button class="link" id="proj-lock" data-en="Lock" data-de="Sperren">Sperren</button>
       </div>
       <h1 id="proj-title"></h1>
+      <div class="toolbar" style="justify-content:flex-start">
+        <button class="link" id="btn-edit" data-en="Edit" data-de="Bearbeiten">Bearbeiten</button>
+        <button class="link" id="btn-link" data-en="Copy link" data-de="Link erzeugen">Link erzeugen</button>
+        <button class="link" id="btn-delete" style="color:#b3402f" data-en="Delete project" data-de="Projekt löschen">Projekt löschen</button>
+      </div>
+      <form class="panel hidden" id="edit-form">
+        <p style="margin-bottom:8px" data-en="Project name" data-de="Projektname">Projektname</p>
+        <input type="text" id="edit-name" maxlength="40" required style="width:100%;margin-bottom:12px" />
+        <p style="margin-bottom:8px" data-en="New password (leave empty to keep)" data-de="Neues Passwort (leer lassen = unverändert)">Neues Passwort (leer lassen = unverändert)</p>
+        <input type="password" id="edit-pw" autocomplete="off" style="width:100%;margin-bottom:12px" />
+        <button class="btn" type="submit" data-en="Save" data-de="Speichern">Speichern</button>
+        <p class="msg" id="edit-msg"></p>
+      </form>
+      <div class="panel hidden" id="link-box">
+        <input type="text" id="link-out" readonly style="width:100%" />
+        <p class="note" id="link-note"></p>
+      </div>
       <div class="toolbar">
         <label class="btn" for="file" data-en="Upload images" data-de="Bilder hochladen">Bilder hochladen</label>
         <input type="file" id="file" accept="image/*" multiple class="hidden" />
@@ -100,6 +117,9 @@
       images: { en: 'images', de: 'Bilder' },
       del: { en: 'Delete', de: 'Löschen' },
       confirmDel: { en: 'Delete this image?', de: 'Dieses Bild löschen?' },
+      confirmProj: { en: 'Delete this project and all its images? This cannot be undone.', de: 'Dieses Projekt und alle Bilder löschen? Das kann nicht rückgängig gemacht werden.' },
+      copied: { en: 'Link copied. It opens this project\'s password prompt — but only in this browser, since all data is stored locally.', de: 'Link kopiert. Er öffnet die Passwortabfrage dieses Projekts — aber nur in diesem Browser, da alle Daten lokal gespeichert sind.' },
+      saved: { en: 'Saved.', de: 'Gespeichert.' },
       star: { en: 'stars', de: 'Sterne' },
     };
     let lang = 'de';
@@ -107,9 +127,9 @@
     const t = k => TXT[k][lang];
 
     /* ---------- Projekte (Metadaten in localStorage) ---------- */
-    let projects = [];
-    try { projects = JSON.parse(localStorage.getItem('auftraege-projects')) || []; } catch (e) {}
-    if (!projects.some(p => p.id === 'test')) projects.unshift({ id: 'test', name: 'Testprojekt', salt: null, hash: null });
+    let projects = null;
+    try { projects = JSON.parse(localStorage.getItem('auftraege-projects')); } catch (e) {}
+    if (!Array.isArray(projects)) projects = [{ id: 'test', name: 'Testprojekt', salt: null, hash: null }];
     const saveProjects = () => { try { localStorage.setItem('auftraege-projects', JSON.stringify(projects)); } catch (e) {} };
     let current = null;
 
@@ -172,10 +192,12 @@
         el.append(b);
       });
       show('list');
+      if (location.hash) history.replaceState(null, '', location.pathname);
     }
 
     function openProject(id) {
       current = projects.find(p => p.id === id);
+      if (!current) return renderList();
       if (current.hash && isUnlocked(id)) return renderProject();
       $('auth-title').textContent = current.name;
       $('auth-text').textContent = current.hash ? t('enterPw') : t('setPw');
@@ -205,6 +227,7 @@
     async function renderProject() {
       urls.forEach(URL.revokeObjectURL); urls = [];
       $('proj-title').textContent = current.name;
+      $('edit-form').classList.add('hidden'); $('link-box').classList.add('hidden');
       const imgs = (await imgAll(current.id)).sort((a, b) => a.id - b.id);
       $('proj-count').textContent = imgs.length + ' ' + t('images');
       const grid = $('grid'); grid.innerHTML = '';
@@ -240,6 +263,39 @@
       renderProject();
     };
 
+    $('btn-edit').onclick = () => {
+      $('edit-name').value = current.name; $('edit-pw').value = ''; $('edit-msg').textContent = '';
+      $('edit-form').classList.toggle('hidden');
+    };
+    $('edit-form').onsubmit = async e => {
+      e.preventDefault();
+      const pw = $('edit-pw').value;
+      if (pw && pw.length < 4) { $('edit-msg').style.color = ''; $('edit-msg').textContent = t('short'); return; }
+      current.name = $('edit-name').value.trim() || current.name;
+      if (pw) {
+        current.salt = crypto.getRandomValues(new Uint32Array(4)).join('-');
+        current.hash = await sha(current.salt, pw);
+      }
+      saveProjects();
+      $('proj-title').textContent = current.name;
+      $('edit-pw').value = '';
+      $('edit-msg').style.color = 'inherit'; $('edit-msg').textContent = t('saved');
+    };
+    $('btn-link').onclick = async () => {
+      const url = location.origin + location.pathname + '#project=' + encodeURIComponent(current.id);
+      $('link-out').value = url;
+      $('link-note').textContent = t('copied');
+      $('link-box').classList.remove('hidden');
+      try { await navigator.clipboard.writeText(url); } catch (e) { $('link-out').select(); }
+    };
+    $('btn-delete').onclick = async () => {
+      if (!confirm(t('confirmProj'))) return;
+      for (const rec of await imgAll(current.id)) await imgDel(rec.id);
+      try { sessionStorage.removeItem('unlocked-' + current.id); } catch (e) {}
+      projects = projects.filter(p => p !== current);
+      saveProjects(); current = null; renderList();
+    };
+
     $('new-form').onsubmit = e => {
       e.preventDefault();
       const name = $('new-name').value.trim();
@@ -267,7 +323,9 @@
       else renderList();
     };
     applyLang();
-    renderList();
+    const m = location.hash.match(/^#project=(.+)$/);
+    const deep = m && projects.find(p => p.id === decodeURIComponent(m[1]));
+    if (deep) openProject(deep.id); else renderList();
   </script>
 </body>
 </html>
