@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Aufträge — Sven Gubo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="src/pics/favicon.jpg">
+  <style>
+    :root {
+      --bg: #f4f1ea; --text: #1a1a1a; --accent: #a68b6d; --panel: #ffffff;
+      --border: rgba(0,0,0,0.08);
+      --serif: 'Playfair Display', serif; --sans: 'Poppins', sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--sans); background: var(--bg); color: var(--text); min-height: 100vh; }
+    header { display: flex; justify-content: space-between; align-items: center; padding: 20px 24px; }
+    header a, .link { color: var(--accent); text-decoration: none; font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; background: none; border: 0; font-family: inherit; }
+    main { width: min(960px, 100%); margin: 0 auto; padding: 16px 24px 64px; }
+    h1 { font-family: var(--serif); font-weight: 400; font-size: clamp(2.2rem, 7vw, 3.5rem); margin-bottom: 24px; }
+    h1 em { font-style: italic; color: var(--accent); }
+    .panel { background: var(--panel); border: 1px solid var(--border); padding: 20px; margin-bottom: 16px; }
+    .project-list { display: grid; gap: 12px; }
+    .project-btn { display: flex; justify-content: space-between; align-items: center; width: 100%; text-align: left; font: inherit; font-size: 1.1rem; padding: 18px 20px; background: var(--panel); color: var(--text); border: 1px solid var(--border); cursor: pointer; }
+    .project-btn:hover { border-color: var(--accent); }
+    .project-btn small { font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase; opacity: 0.5; }
+    form.row { display: flex; gap: 8px; flex-wrap: wrap; }
+    input[type=text], input[type=password] { flex: 1; min-width: 160px; font: inherit; padding: 10px; border: 1px solid var(--border); background: var(--bg); color: var(--text); }
+    .btn { font: inherit; font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; padding: 10px 16px; border: 0; background: var(--text); color: var(--bg); cursor: pointer; }
+    .msg { font-size: 0.85rem; color: #b3402f; margin-top: 8px; min-height: 1.2em; }
+    .note { font-size: 0.8rem; opacity: 0.6; margin-top: 8px; }
+    .toolbar { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 16px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; }
+    .card { background: var(--panel); border: 1px solid var(--border); }
+    .card img { display: block; width: 100%; aspect-ratio: 4/3; object-fit: cover; }
+    .card .meta { padding: 10px 12px; display: flex; justify-content: space-between; align-items: center; }
+    .stars button { background: none; border: 0; cursor: pointer; font-size: 1.4rem; line-height: 1; color: rgba(0,0,0,0.2); padding: 0 1px; }
+    .stars button.on { color: var(--accent); }
+    .del { font-size: 0.7rem; opacity: 0.5; }
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="index.html" data-en="← Home" data-de="← Startseite">← Startseite</a>
+    <button class="link" id="lang-toggle">EN</button>
+  </header>
+  <main>
+    <!-- Projektliste -->
+    <section id="view-list">
+      <h1><em data-en="Jobs" data-de="Aufträge">Aufträge</em></h1>
+      <div class="project-list" id="project-list"></div>
+      <form class="row panel" id="new-form" style="margin-top:16px">
+        <input type="text" id="new-name" maxlength="40" required data-ph-en="New project name" data-ph-de="Name des neuen Projekts" />
+        <button class="btn" type="submit" data-en="Create project" data-de="Projekt anlegen">Projekt anlegen</button>
+      </form>
+    </section>
+
+    <!-- Passwort -->
+    <section id="view-auth" class="hidden">
+      <button class="link" id="auth-back" data-en="← All jobs" data-de="← Alle Aufträge">← Alle Aufträge</button>
+      <h1 id="auth-title" style="margin-top:12px"></h1>
+      <form class="panel" id="auth-form">
+        <p id="auth-text" style="margin-bottom:12px"></p>
+        <div class="row" style="display:flex;gap:8px;flex-wrap:wrap">
+          <input type="password" id="pw" autocomplete="off" required />
+          <button class="btn" type="submit" id="auth-btn"></button>
+        </div>
+        <p class="msg" id="auth-msg"></p>
+      </form>
+    </section>
+
+    <!-- Projekt -->
+    <section id="view-project" class="hidden">
+      <div class="toolbar">
+        <button class="link" id="proj-back" data-en="← All jobs" data-de="← Alle Aufträge">← Alle Aufträge</button>
+        <button class="link" id="proj-lock" data-en="Lock" data-de="Sperren">Sperren</button>
+      </div>
+      <h1 id="proj-title"></h1>
+      <div class="toolbar">
+        <label class="btn" for="file" data-en="Upload images" data-de="Bilder hochladen">Bilder hochladen</label>
+        <input type="file" id="file" accept="image/*" multiple class="hidden" />
+        <span class="note" id="proj-count"></span>
+      </div>
+      <div class="grid" id="grid"></div>
+    </section>
+  </main>
+
+  <script>
+    const $ = id => document.getElementById(id);
+    const TXT = {
+      setPw: { en: 'First visit: choose a password for this project.', de: 'Erster Besuch: Lege ein Passwort für dieses Projekt fest.' },
+      enterPw: { en: 'Enter the password for this project.', de: 'Gib das Passwort für dieses Projekt ein.' },
+      setBtn: { en: 'Set password', de: 'Passwort festlegen' },
+      enterBtn: { en: 'Open', de: 'Öffnen' },
+      wrong: { en: 'Wrong password.', de: 'Falsches Passwort.' },
+      short: { en: 'At least 4 characters.', de: 'Mindestens 4 Zeichen.' },
+      locked: { en: 'Protected', de: 'Geschützt' },
+      fresh: { en: 'No password yet', de: 'Noch kein Passwort' },
+      images: { en: 'images', de: 'Bilder' },
+      del: { en: 'Delete', de: 'Löschen' },
+      confirmDel: { en: 'Delete this image?', de: 'Dieses Bild löschen?' },
+      star: { en: 'stars', de: 'Sterne' },
+    };
+    let lang = 'de';
+    try { lang = localStorage.getItem('lang') || 'de'; } catch (e) {}
+    const t = k => TXT[k][lang];
+
+    /* ---------- Projekte (Metadaten in localStorage) ---------- */
+    let projects = [];
+    try { projects = JSON.parse(localStorage.getItem('auftraege-projects')) || []; } catch (e) {}
+    if (!projects.some(p => p.id === 'test')) projects.unshift({ id: 'test', name: 'Testprojekt', salt: null, hash: null });
+    const saveProjects = () => { try { localStorage.setItem('auftraege-projects', JSON.stringify(projects)); } catch (e) {} };
+    let current = null;
+
+    async function sha(salt, pw) {
+      const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(salt + ':' + pw));
+      return [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+    const isUnlocked = id => { try { return sessionStorage.getItem('unlocked-' + id) === '1'; } catch (e) { return false; } };
+
+    /* ---------- Bilder (IndexedDB) ---------- */
+    const dbp = new Promise((res, rej) => {
+      const r = indexedDB.open('auftraege', 1);
+      r.onupgradeneeded = () => r.result.createObjectStore('images', { keyPath: 'id', autoIncrement: true }).createIndex('project', 'project');
+      r.onsuccess = () => res(r.result);
+      r.onerror = () => rej(r.error);
+    });
+    async function tx(mode, fn) {
+      const db = await dbp;
+      return new Promise((res, rej) => {
+        const t = db.transaction('images', mode);
+        const out = fn(t.objectStore('images'));
+        t.oncomplete = () => res(out.result);
+        t.onerror = () => rej(t.error);
+      });
+    }
+    const imgAll = p => tx('readonly', s => s.index('project').getAll(p));
+    const imgPut = rec => tx('readwrite', s => s.put(rec));
+    const imgDel = id => tx('readwrite', s => s.delete(id));
+
+    function shrink(file, max = 1600) {
+      return new Promise((res, rej) => {
+        const img = new Image();
+        const url = URL.createObjectURL(file);
+        img.onload = () => {
+          const k = Math.min(1, max / Math.max(img.width, img.height));
+          const c = document.createElement('canvas');
+          c.width = Math.round(img.width * k); c.height = Math.round(img.height * k);
+          c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+          URL.revokeObjectURL(url);
+          c.toBlob(b => b ? res(b) : rej(new Error('encode')), 'image/jpeg', 0.85);
+        };
+        img.onerror = () => { URL.revokeObjectURL(url); rej(new Error('load')); };
+        img.src = url;
+      });
+    }
+
+    /* ---------- Views ---------- */
+    function show(v) { ['list', 'auth', 'project'].forEach(n => $('view-' + n).classList.toggle('hidden', n !== v)); }
+
+    function renderList() {
+      const el = $('project-list'); el.innerHTML = '';
+      projects.forEach(p => {
+        const b = document.createElement('button');
+        b.className = 'project-btn';
+        b.append(document.createTextNode(p.name));
+        const s = document.createElement('small');
+        s.textContent = p.hash ? '🔒 ' + t('locked') : t('fresh');
+        b.append(s);
+        b.onclick = () => openProject(p.id);
+        el.append(b);
+      });
+      show('list');
+    }
+
+    function openProject(id) {
+      current = projects.find(p => p.id === id);
+      if (current.hash && isUnlocked(id)) return renderProject();
+      $('auth-title').textContent = current.name;
+      $('auth-text').textContent = current.hash ? t('enterPw') : t('setPw');
+      $('auth-btn').textContent = current.hash ? t('enterBtn') : t('setBtn');
+      $('auth-msg').textContent = '';
+      $('pw').value = '';
+      show('auth');
+      $('pw').focus();
+    }
+
+    $('auth-form').onsubmit = async e => {
+      e.preventDefault();
+      const pw = $('pw').value;
+      if (!current.hash) {
+        if (pw.length < 4) { $('auth-msg').textContent = t('short'); return; }
+        current.salt = crypto.getRandomValues(new Uint32Array(4)).join('-');
+        current.hash = await sha(current.salt, pw);
+        saveProjects();
+      } else if (await sha(current.salt, pw) !== current.hash) {
+        $('auth-msg').textContent = t('wrong'); return;
+      }
+      try { sessionStorage.setItem('unlocked-' + current.id, '1'); } catch (err) {}
+      renderProject();
+    };
+
+    let urls = [];
+    async function renderProject() {
+      urls.forEach(URL.revokeObjectURL); urls = [];
+      $('proj-title').textContent = current.name;
+      const imgs = (await imgAll(current.id)).sort((a, b) => a.id - b.id);
+      $('proj-count').textContent = imgs.length + ' ' + t('images');
+      const grid = $('grid'); grid.innerHTML = '';
+      imgs.forEach(rec => {
+        const url = URL.createObjectURL(rec.blob); urls.push(url);
+        const card = document.createElement('div'); card.className = 'card';
+        const im = document.createElement('img'); im.src = url; im.alt = rec.name || '';
+        const meta = document.createElement('div'); meta.className = 'meta';
+        const stars = document.createElement('div'); stars.className = 'stars';
+        for (let i = 1; i <= 5; i++) {
+          const b = document.createElement('button');
+          b.textContent = '★';
+          b.setAttribute('aria-label', i + ' ' + t('star'));
+          if (i <= rec.rating) b.className = 'on';
+          b.onclick = async () => { rec.rating = rec.rating === i ? 0 : i; await imgPut(rec); paintStars(stars, rec.rating); };
+          stars.append(b);
+        }
+        const del = document.createElement('button');
+        del.className = 'link del'; del.textContent = t('del');
+        del.onclick = async () => { if (confirm(t('confirmDel'))) { await imgDel(rec.id); renderProject(); } };
+        meta.append(stars, del);
+        card.append(im, meta); grid.append(card);
+      });
+      show('project');
+    }
+    function paintStars(box, n) { [...box.children].forEach((b, i) => b.className = i < n ? 'on' : ''); }
+
+    $('file').onchange = async e => {
+      for (const f of e.target.files) {
+        try { await imgPut({ project: current.id, name: f.name, rating: 0, blob: await shrink(f) }); } catch (err) {}
+      }
+      e.target.value = '';
+      renderProject();
+    };
+
+    $('new-form').onsubmit = e => {
+      e.preventDefault();
+      const name = $('new-name').value.trim();
+      if (!name) return;
+      projects.push({ id: 'p' + Date.now(), name, salt: null, hash: null });
+      saveProjects(); $('new-name').value = ''; renderList();
+    };
+    $('auth-back').onclick = $('proj-back').onclick = renderList;
+    $('proj-lock').onclick = () => { try { sessionStorage.removeItem('unlocked-' + current.id); } catch (e) {} renderList(); };
+
+    /* ---------- Sprache ---------- */
+    function applyLang() {
+      document.documentElement.lang = lang;
+      $('lang-toggle').textContent = lang === 'en' ? 'DE' : 'EN';
+      document.querySelectorAll('[data-en]').forEach(el => el.textContent = el.dataset[lang]);
+      document.querySelectorAll('[data-ph-en]').forEach(el => el.placeholder = el.dataset[lang === 'en' ? 'phEn' : 'phDe']);
+      document.title = (lang === 'en' ? 'Jobs' : 'Aufträge') + ' — Sven Gubo';
+    }
+    $('lang-toggle').onclick = () => {
+      lang = lang === 'en' ? 'de' : 'en';
+      try { localStorage.setItem('lang', lang); } catch (e) {}
+      applyLang();
+      if (!$('view-project').classList.contains('hidden')) renderProject();
+      else if (!$('view-auth').classList.contains('hidden')) openProject(current.id);
+      else renderList();
+    };
+    applyLang();
+    renderList();
+  </script>
+</body>
+</html>
