@@ -47,6 +47,17 @@
       touch-action: none;
     }
     .hint { font-size: 0.8rem; opacity: 0.6; text-align: center; }
+    .panel { width: min(480px, 100%); background: var(--panel); border: 1px solid var(--border); padding: 16px; }
+    .panel h2 { font-family: var(--serif); font-weight: 400; font-size: 1.3rem; margin-bottom: 8px; }
+    #entry { display: none; }
+    #entry p { font-size: 0.8rem; margin-bottom: 8px; }
+    #entry form { display: flex; gap: 8px; }
+    #entry input { flex: 1; min-width: 0; font: inherit; padding: 8px; border: 1px solid var(--border); background: var(--bg); color: var(--text); letter-spacing: 1px; }
+    #entry button { font: inherit; font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; padding: 8px 14px; border: 0; background: var(--text); color: var(--bg); cursor: pointer; }
+    ol#board-list { padding-left: 1.5em; font-size: 0.9rem; }
+    ol#board-list li { padding: 3px 0; }
+    ol#board-list li span.pts { float: right; font-weight: 600; }
+    ol#board-list li.empty { opacity: 0.4; }
     a { color: var(--accent); text-decoration: none; font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; }
   </style>
 </head>
@@ -54,7 +65,18 @@
   <h1><em>Snake</em></h1>
   <div class="bar"><span>Score <strong id="score">0</strong></span><span>Best <strong id="best">0</strong></span></div>
   <canvas id="board" width="480" height="480"></canvas>
+  <div class="panel" id="entry">
+    <p><strong>New highscore!</strong> Enter a name (max 10 characters):</p>
+    <form id="entry-form">
+      <input id="name" maxlength="10" autocomplete="off" spellcheck="false" placeholder="Your name" required />
+      <button type="submit">Save</button>
+    </form>
+  </div>
   <p class="hint" id="hint">Press an arrow key or swipe to start</p>
+  <div class="panel">
+    <h2>Scoreboard</h2>
+    <ol id="board-list"></ol>
+  </div>
   <a href="index.html">← Back to Home</a>
 
   <script>
@@ -71,6 +93,48 @@
     let best = 0;
     try { best = +localStorage.getItem('snake-best') || 0; } catch (e) {}
     bestEl.textContent = best;
+
+    const MAX_NAME = 10, MAX_ROWS = 10;
+    const listEl = document.getElementById('board-list');
+    const entryEl = document.getElementById('entry');
+    const entryForm = document.getElementById('entry-form');
+    const nameEl = document.getElementById('name');
+    let scores = [];
+    try { scores = JSON.parse(localStorage.getItem('snake-scores')) || []; } catch (e) {}
+    if (!Array.isArray(scores)) scores = [];
+    if (!scores.length && best > 0) scores = [{ name: 'Player', score: best }];
+    let pendingScore = 0;
+
+    function renderBoard() {
+      listEl.innerHTML = '';
+      for (let i = 0; i < MAX_ROWS; i++) {
+        const li = document.createElement('li');
+        const e = scores[i];
+        if (e) {
+          li.append(document.createTextNode(e.name));
+          const pts = document.createElement('span');
+          pts.className = 'pts';
+          pts.textContent = e.score;
+          li.append(pts);
+        } else {
+          li.className = 'empty';
+          li.textContent = '—';
+        }
+        listEl.append(li);
+      }
+    }
+    renderBoard();
+
+    entryForm.addEventListener('submit', e => {
+      e.preventDefault();
+      const name = nameEl.value.trim().slice(0, MAX_NAME) || 'Anonymous';
+      scores.push({ name, score: pendingScore });
+      scores.sort((a, b) => b.score - a.score);
+      scores = scores.slice(0, MAX_ROWS);
+      try { localStorage.setItem('snake-scores', JSON.stringify(scores)); } catch (err) {}
+      entryEl.style.display = 'none';
+      renderBoard();
+    });
 
     let snake, dir, queue, food, score, running, timer;
 
@@ -131,8 +195,12 @@
     function gameOver() {
       clearInterval(timer);
       running = false;
-      if (score > best) {
+      if (score > best && score > 0) {
         best = score;
+        pendingScore = score;
+        entryEl.style.display = 'block';
+        nameEl.value = '';
+        nameEl.focus();
         bestEl.textContent = best;
         try { localStorage.setItem('snake-best', best); } catch (e) {}
       }
@@ -155,6 +223,7 @@
       ArrowRight: { x: 1, y: 0 }, d: { x: 1, y: 0 },
     };
     document.addEventListener('keydown', e => {
+      if (e.target.tagName === 'INPUT') return;
       const nd = keys[e.key.length === 1 ? e.key.toLowerCase() : e.key];
       if (!nd) return;
       e.preventDefault();
